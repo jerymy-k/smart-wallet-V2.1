@@ -9,28 +9,12 @@ require_once __DIR__ . "/../app/Models/User.php";
 $error = "";
 $success = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $fullName = $_POST["full_name"] ?? "";
-    $email    = $_POST["email"] ?? "";
-    $password = $_POST["password"] ?? "";
-    $confirm  = $_POST["confirm_password"] ?? "";
-
-    if (trim($fullName) === "" || trim($email) === "" || $password === "" || $confirm === "") {
-        $error = "Veuillez remplir tous les champs.";
-    } elseif ($password !== $confirm) {
-        $error = "Les mots de passe ne correspondent pas.";
-    } elseif (strlen($password) < 6) {
-        $error = "Le mot de passe doit contenir au moins 6 caractères.";
-    } else {
-        $user = new User();
-        $ok = $user->register($fullName, $email, $password);
-
-        if ($ok) {
-            $success = "Compte créé avec succès. Vous pouvez maintenant vous connecter.";
-        } else {
-            $error = "Inscription échouée (email déjà utilisé ou données invalides).";
-        }
-    }
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+  $fullName = trim($_POST['full_name']);
+  $email = trim($_POST['email']);
+  $password = $_POST['password'];
+  $confirm = $_POST['confirm_password'];
+  if($)
 }
 ?>
 <!DOCTYPE html>

@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
-if(!isset($_SESSION['user_id'])){
+if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
@@ -96,12 +96,10 @@ $email = $_SESSION['email'];
                 <span class="font-semibold text-sm">Dashboard</span>
             </a>
             <a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#282e39] rounded-xl transition-colors group"
-                href="#">
+                href="/smart-wallet-oop/public/categories/index.php">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">Category</span>
                 <span
-                    class="material-symbols-outlined group-hover:text-primary transition-colors">account_balance_wallet</span>
-                <span
-                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">My
-                    Wallet</span>
+                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Category</span>
             </a>
             <a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#282e39] rounded-xl transition-colors group"
                 href="#">
@@ -142,7 +140,7 @@ $email = $_SESSION['email'];
             <div class="flex items-center gap-3 px-2 py-2">
                 <div
                     class="h-10 w-10 rounded-full bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center text-white font-bold shadow-lg shadow-primary/20">
-                    <?= $fullName[0]?>
+                    <?= $fullName[0] ?>
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-sm font-bold text-[#111318] dark:text-white truncate"><?= $fullName ?></p>
