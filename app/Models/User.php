@@ -49,7 +49,7 @@ class User
         if (!password_verify($password, $user['password_hash'])) {
             return null;
         }
-        unset($user['password_hash']);
+        unset($unset['password_hash']);
         return $user;
         
 
