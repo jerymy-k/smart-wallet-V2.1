@@ -8,7 +8,7 @@ use PDOException;
 class Database
 {
     private static ?Database $instance = null;
-    private PDO $connection;
+     private PDO $connection;
 
     private string $host = "localhost";
     private string $dbName = "smart_wallet";
