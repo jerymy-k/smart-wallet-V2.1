@@ -8,21 +8,19 @@ require_once __DIR__ . "/../app/Models/User.php";
 
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email    = $_POST["email"] ?? "";
-    $password = $_POST["password"] ?? "";
-
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+  $email = $_POST['email'];
+    $password = $_POST['password'];
     $user = new User();
-    $logged = $user->login($email, $password);
-
-    if ($logged) {
-        $_SESSION["user_id"]   = $logged["id"];
-        $_SESSION["full_name"] = $logged["full_name"];
-        $_SESSION["email"]     = $logged["email"];
-        header("Location: dashboard.php");
-        exit;
-    } else {
-        $error = "Email ou mot de passe incorrect.";
+    $IsLog = $user->login($email , $password);
+    if($IsLog){
+      $_SESSION['user_id'] = $IsLog['id'];
+      $_SESSION['full_name'] = $IsLog['full_name'];
+      $_SESSION['email'] = $IsLog['email'];
+      header('Location: dashboard.php');
+      exit;
+    }else{
+      $error = "Email ou mot  de passe incorrect.";
     }
 }
 ?>
