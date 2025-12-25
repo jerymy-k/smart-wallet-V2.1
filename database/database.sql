@@ -1,31 +1,17 @@
--- ==========================
--- SMART WALLET - database.sql
--- ==========================
-
-DROP DATABASE IF EXISTS smart_wallet;
 CREATE DATABASE smart_wallet
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
 USE smart_wallet;
 
--- --------------------------
--- TABLE: users
--- --------------------------
 CREATE TABLE users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   full_name VARCHAR(120) NOT NULL,
-  email VARCHAR(180) NOT NULL,
+  email VARCHAR(180) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ;
 
-  CONSTRAINT uq_users_email UNIQUE (email)
-) ENGINE=InnoDB;
-
--- --------------------------
--- TABLE: categories
--- type: income | expense | both
--- --------------------------
 CREATE TABLE categories (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id INT UNSIGNED NOT NULL,
@@ -39,14 +25,9 @@ CREATE TABLE categories (
     ON UPDATE CASCADE,
 
   CONSTRAINT uq_category_name_per_user UNIQUE (user_id, name)
-) ENGINE=InnoDB;
+);
 
-CREATE INDEX idx_categories_user ON categories(user_id);
-CREATE INDEX idx_categories_type ON categories(type);
 
--- --------------------------
--- TABLE: incomes
--- --------------------------
 CREATE TABLE incomes (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id INT UNSIGNED NOT NULL,
@@ -67,15 +48,9 @@ CREATE TABLE incomes (
     ON UPDATE CASCADE,
 
   CONSTRAINT chk_incomes_amount CHECK (amount > 0)
-) ENGINE=InnoDB;
+);
 
-CREATE INDEX idx_incomes_user ON incomes(user_id);
-CREATE INDEX idx_incomes_category ON incomes(category_id);
-CREATE INDEX idx_incomes_date ON incomes(income_date);
 
--- --------------------------
--- TABLE: expenses
--- --------------------------
 CREATE TABLE expenses (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id INT UNSIGNED NOT NULL,
@@ -96,12 +71,16 @@ CREATE TABLE expenses (
     ON UPDATE CASCADE,
 
   CONSTRAINT chk_expenses_amount CHECK (amount > 0)
-) ENGINE=InnoDB;
+);
 
-CREATE INDEX idx_expenses_user ON expenses(user_id);
-CREATE INDEX idx_expenses_category ON expenses(category_id);
-CREATE INDEX idx_expenses_date ON expenses(expense_date);
 
 show DATABASES;
 use smart_wallet;
-show tables
+show tables;
+SELECT COUNT(id) AS som
+FROM categories
+WHERE user_id = 1
+AND type IS NOT NULL;
+
+use smart_wallet;
+DELETE FROM categories WHERE id = 11;
