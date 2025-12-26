@@ -8,9 +8,9 @@ class User
 {
     private PDO $db;
 
-    public ?string $fullName;
+    public string $fullName;
     public string $email;
-    public string $password;
+    private string $password;
 
     public function __construct(?string $name, string $eml, string $pass)
     {
