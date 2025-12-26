@@ -14,7 +14,21 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
   $email = trim($_POST['email']);
   $password = $_POST['password'];
   $confirm = $_POST['confirm_password'];
-  if($)
+  if(strlen($fullName) < 4){
+    $error = "Your full name is invalid please insert more than 4 character";
+  }
+  if($password !== $confirm) {
+    $error = "passwords are not match";
+  }else{
+    $user = new User($fullName , $email , $password);
+    $IsRegister = $user->register();
+    if(!$IsRegister){
+      $error = "Your email isn't valid or there is another user with this email";
+    }else{
+      $success = "Your account has been successfully created";
+    }
+  }
+  
 }
 ?>
 <!DOCTYPE html>
@@ -58,11 +72,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 <body class="bg-background-light dark:bg-background-dark text-[#111318] dark:text-white font-display overflow-x-hidden antialiased h-screen flex flex-col">
   <div class="flex min-h-full flex-1">
 
-    <!-- Left: Form -->
     <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-background-light dark:bg-background-dark w-full lg:w-[45%] border-r border-transparent dark:border-[#282e39]/50 overflow-y-auto">
       <div class="mx-auto w-full max-w-sm lg:w-96">
 
-        <!-- Branding -->
         <div class="flex items-center gap-3 mb-8">
           <div class="size-10 text-primary bg-primary/20 rounded-lg flex items-center justify-center p-2">
             <svg class="w-full h-full text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +84,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
           <h2 class="text-2xl font-bold leading-tight tracking-[-0.015em]">Smart Wallet</h2>
         </div>
 
-        <!-- Heading -->
         <div class="mb-8">
           <h2 class="text-4xl font-black leading-tight tracking-[-0.033em] mb-3">Create Account</h2>
           <p class="text-[#637588] dark:text-[#9da6b9] text-base font-normal leading-normal">
@@ -80,7 +91,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
           </p>
         </div>
 
-        <!-- Alerts -->
         <?php if ($error): ?>
           <div class="mb-5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200 flex gap-2">
             <span class="material-symbols-outlined text-[20px]">error</span>
@@ -98,9 +108,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
           </div>
         <?php endif; ?>
 
-        <!-- ✅ Real Form -->
         <form method="POST" class="flex flex-col gap-5">
-          <!-- Full name -->
           <label class="flex flex-col w-full">
             <p class="text-[#111318] dark:text-white text-base font-medium leading-normal pb-2">Full Name</p>
             <div class="flex w-full items-stretch rounded-lg shadow-sm">
@@ -118,7 +126,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             </div>
           </label>
 
-          <!-- Email -->
           <label class="flex flex-col w-full">
             <p class="text-[#111318] dark:text-white text-base font-medium leading-normal pb-2">Email Address</p>
             <div class="flex w-full items-stretch rounded-lg shadow-sm">
@@ -136,7 +143,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             </div>
           </label>
 
-          <!-- Password -->
           <label class="flex flex-col w-full">
             <p class="text-[#111318] dark:text-white text-base font-medium leading-normal pb-2">Password</p>
             <div class="flex w-full items-stretch rounded-lg shadow-sm group">
@@ -156,7 +162,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             </div>
           </label>
 
-          <!-- Confirm -->
           <label class="flex flex-col w-full">
             <p class="text-[#111318] dark:text-white text-base font-medium leading-normal pb-2">Confirm Password</p>
             <div class="flex w-full items-stretch rounded-lg shadow-sm group">
@@ -176,27 +181,23 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             </div>
           </label>
 
-          <!-- Submit -->
           <button type="submit"
             class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/20 mt-2">
             <span class="truncate">Sign Up</span>
           </button>
 
-          <!-- Footer -->
           <p class="text-center text-sm text-gray-500 dark:text-[#9da6b9] mt-2">
             Already have an account?
             <a class="font-bold text-primary hover:text-primary/80 transition-colors" href="login.php">Log In</a>
           </p>
         </form>
 
-        <!-- NOTE: Social register buttons removed (not implemented) -->
         <p class="text-center text-xs text-[#637588] dark:text-[#9da6b9] mt-6">
           Tip: choose a strong password (min 6 chars).
         </p>
       </div>
     </div>
 
-    <!-- Right: Image -->
     <div class="hidden lg:flex flex-1 relative w-0">
       <div class="absolute inset-0 h-full w-full bg-[#101622]"
         style='background-image:url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdPshj7M67dLxf0jzcQOOcyrX6pOzgkO-MnBP5LsKclOZIP0p49L1CXEoy3G0Kj0qczMHsJvcULmC35oRqVq1iHTcEMdPYkqpEJUzuO1YvDX6rA9fXRMtLTOxXmEbTdDO44MWO3Dh-0Wqey6ckXjE8XaRtHb3Hx2aowL79GZ8FeShSjheXNk1E9c2AVdeX7rvf38gs2pTJSuFKJsbYiRnHPGpVZWPcMse_GId33T1fUa2H5NWNc_EkJpL3LDQ_rJCIk99JcErjoUj4");background-size:cover;background-position:center;'>
@@ -221,7 +222,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
   </div>
 
   <script>
-    // Toggle password visibility
     document.querySelectorAll("button[data-toggle]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = btn.getAttribute("data-toggle");

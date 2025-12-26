@@ -15,11 +15,18 @@ class Category
         $insert = $this->db->prepare($sql);
         return $insert->execute([$user_id, $name, $type]);
     }
-    public function getAllCategoriesByUser(int $user_id): ?array
+    public function getAllCategoriesByUser(?string $type, int $user_id): ?array
     {
-        $sql = "SELECT * FROM categories WHERE user_id = ? ORDER BY created_at DESC ";
-        $getall = $this->db->prepare($sql);
-        $getall->execute([$user_id]);
+        
+        if ($type === NULL) {
+            $sql = "SELECT * FROM categories WHERE user_id = ? ORDER BY created_at DESC ";
+            $getall = $this->db->prepare($sql);
+            $getall->execute([$user_id]);
+        } else {
+            $sql = "SELECT * FROM categories WHERE user_id = ? AND type = ?";
+            $getall = $this->db->prepare($sql);
+            $getall->execute([$user_id, $type]);
+        }
         $AllCate = $getall->fetchAll();
         return $AllCate;
     }

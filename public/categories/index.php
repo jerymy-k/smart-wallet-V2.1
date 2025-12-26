@@ -61,7 +61,7 @@ if (isset($_GET['deletId'])) {
 $totalCategories = $categorie->someCategories(null, $user_id);
 $totalCategoriesIncomes = $categorie->someCategories('income', $user_id);
 $totalCategoriesExpenses = $categorie->someCategories('expense', $user_id);
-$allCategories = $categorie->getAllCategoriesByUser($user_id);
+$allCategories = $categorie->getAllCategoriesByUser(null, $user_id);
 
 ?>
 <!DOCTYPE html>
@@ -70,17 +70,15 @@ $allCategories = $categorie->getAllCategoriesByUser($user_id);
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Categories | Smart Wallet</title>
+    <title>Dashboard | Smart Wallet</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
-
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -94,16 +92,10 @@ $allCategories = $categorie->getAllCategoriesByUser($user_id);
                         "border-dark": "#282e39",
                     },
                     fontFamily: { display: ["Manrope", "sans-serif"] },
-                    borderRadius: {
-                        DEFAULT: "0.25rem",
-                        lg: "0.5rem",
-                        xl: "0.75rem",
-                        "2xl": "1rem",
-                        full: "9999px",
-                    },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", "2xl": "1rem", full: "9999px" },
                 },
             },
-        };
+        }
     </script>
 
     <style>
@@ -123,6 +115,14 @@ $allCategories = $categorie->getAllCategoriesByUser($user_id);
 
         ::-webkit-scrollbar-thumb:hover {
             background: #3b4354;
+        }
+
+        .chart-bar {
+            transition: height 0.3s ease, background-color 0.2s ease;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -146,41 +146,31 @@ $allCategories = $categorie->getAllCategoriesByUser($user_id);
 
         <nav class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-2">
             <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Menu</p>
-
             <a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#282e39] rounded-xl transition-colors group"
                 href="/smart-wallet-oop/public/dashboard.php">
-                <span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
-                <span
-                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Dashboard</span>
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-semibold text-sm">Dashboard</span>
             </a>
-
             <a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl transition-colors"
-                href="/smart-wallet-oop/public/pages/categories/index.php">
-                <span class="material-symbols-outlined">category</span>
-                <span class="font-semibold text-sm">Categories</span>
+                href="/smart-wallet-oop/public/categories/index.php">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">category</span>
+                <span
+                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Categories</span>
             </a>
 
             <a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#282e39] rounded-xl transition-colors group"
-                href="/smart-wallet-oop/public/pages/transactions/index.php">
-                <span class="material-symbols-outlined group-hover:text-primary transition-colors">receipt_long</span>
+                href="/smart-wallet-oop/public/incomes/index.php">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">trending_up</span>
                 <span
-                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Transactions</span>
+                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Incomes</span>
             </a>
 
             <a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#282e39] rounded-xl transition-colors group"
-                href="/smart-wallet-oop/public/pages/analytics/index.php">
-                <span class="material-symbols-outlined group-hover:text-primary transition-colors">analytics</span>
+                href="/smart-wallet-oop/public/expenses/index.php">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">trending_down</span>
                 <span
-                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Analytics</span>
+                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Expenses</span>
             </a>
-
-            <a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#282e39] rounded-xl transition-colors group"
-                href="/smart-wallet-oop/public/pages/settings/index.php">
-                <span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
-                <span
-                    class="font-medium text-sm group-hover:text-[#111318] dark:group-hover:text-white transition-colors">Preferences</span>
-            </a>
-
         </nav>
 
         <div class="p-4 border-t border-gray-100 dark:border-border-dark">
@@ -193,12 +183,14 @@ $allCategories = $categorie->getAllCategoriesByUser($user_id);
                     <p class="text-sm font-bold text-[#111318] dark:text-white truncate"><?= $fullName ?></p>
                     <p class="text-xs text-gray-500 dark:text-gray-400 truncate"><?= $email ?></p>
                 </div>
-                <a href="logout.php" class="text-gray-400 hover:text-red-500 transition-colors">
+                <a href="/smart-wallet-oop/public/logout.php"
+                    class="text-gray-400 hover:text-red-500 transition-colors">
                     <span class="material-symbols-outlined text-[20px]">logout</span>
                 </a>
             </div>
         </div>
     </aside>
+
 
     <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-background-light dark:bg-background-dark relative">
 
@@ -430,7 +422,7 @@ $allCategories = $categorie->getAllCategoriesByUser($user_id);
                                                         <a href="/smart-wallet-oop/public/categories/index.php?deletId=<?= $ac['id'] ?>"
                                                             class="p-2 rounded-lg hover:bg-white/10"
                                                             onclick="return confirm('Are you sure you want to delete <?= $ac['name']; ?>?');">
-                                                            
+
                                                             <span class="material-symbols-outlined text-red-400">delete</span>
                                                         </a>
 
